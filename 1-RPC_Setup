@@ -10,16 +10,18 @@ for (( i=$start; i<=$end; i++ )); do
                                 openssh-server python-dev sudo bridge-utils";
 done
 
-
-
-
 for (( i=$start; i<=$end; i++ )); do
     echo $i; 
     ssh openstack@192.168.1.$i "cd /opt;
                                 sudo git clone -b 9.0.1 https://github.com/rcbops/ansible-lxc-rpc.git;";
 done
 
-
+//
+for (( i=$start; i<=$end; i++ )); do
+    echo $i; 
+    ssh openstack@192.168.1.$i "curl -O https://bootstrap.pypa.io/get-pip.py;
+                                python get-pip.py; pip install -r /opt/ansible-lxc-rpc/requirements.txt";
+done
 
 
 
