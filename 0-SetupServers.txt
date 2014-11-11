@@ -1,0 +1,34 @@
+start=74
+end=94
+
+//Remove ip from known hosts
+for (( i=$start; i<=$end; i++ )); do
+    echo $i; ssh-keygen -f "/home/rcb/.ssh/known_hosts" -R 192.168.1.$i; 
+done
+
+//Add back into known hosts
+for (( i=$start; i<=$end; i++ )); do
+    echo $i; sshpass -p ostackdemo ssh  -o StrictHostKeyChecking=no openstack@192.168.1.$i "ls"; 
+done
+
+//Copy Key over
+for (( i=$start; i<=$end; i++ )); do
+    echo $i; sshpass -p ostackdemo ssh-copy-id openstack@192.168.1.$i;
+done
+
+//Give passwordless sudo
+for (( i=$start; i<=$end; i++ )); do
+    echo $i; 
+    ssh openstack@192.168.1.$i "echo 'openstack ALL = (root) NOPASSWD:ALL' > openstack;
+    chmod 0440 openstack; echo ostackdemo | sudo -S chown root: openstack;
+    echo ostackdemo | sudo -S mv openstack /etc/sudoers.d";
+done
+
+//CPU DEADLOCK SCRIPT
+for (( i=$start; i<=$end; i++ )); 
+    do echo $i; scp dan/ubuntu/cpu_dead_lock_fix.sh openstack@192.168.1.$i:;
+done
+for (( i=$start; i<=$end; i++ )); do
+    echo $i; 
+    ssh openstack@192.168.1.$i "sudo bash cpu_dead_lock_fix.sh"; 
+done

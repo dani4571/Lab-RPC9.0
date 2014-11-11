@@ -1,0 +1,25 @@
+for (( i=$start; i<=$end; i++ )); do
+    echo $i; 
+    ssh openstack@192.168.1.$i "sudo apt-get update -y";
+done
+
+for (( i=$start; i<=$end; i++ )); do
+    echo $i; 
+    ssh openstack@192.168.1.$i "sudo apt-get install -y \
+                                aptitude build-essential git ntp ntpdate 
+                                openssh-server python-dev sudo bridge-utils";
+done
+
+
+
+
+for (( i=$start; i<=$end; i++ )); do
+    echo $i; 
+    ssh openstack@192.168.1.$i "cd /opt;
+                                sudo git clone -b 9.0.1 https://github.com/rcbops/ansible-lxc-rpc.git;";
+done
+
+
+
+
+
