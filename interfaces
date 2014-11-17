@@ -1,13 +1,13 @@
-auto em1
-iface em1 inet manual
+auto eth0
+iface eth0 inet manual
 
 # For VM external access (br-vlan)
-auto em2
-iface em2 inet manual
+auto eth1
+iface eth1 inet manual
 
 # For VM tunneling (br-vxlan)
-auto em3
-iface em3 inet manual
+auto p3p1
+iface p3p1 inet manual
 
 
 
@@ -18,10 +18,10 @@ iface br-mgmt inet static
         bridge_waitport 0
         bridge_fd 0
         # Bridge port references tagged interface
-        bridge_ports em1
-        address 10.127.83.13
+        bridge_ports eth0
+        address 192.168.1.ADDRESS
         netmask 255.255.255.0
-    gateway 10.127.83.1
+    gateway 192.168.1.1
         dns-nameservers 8.8.8.8 4.2.2.2
 
 # OpenStack Networking VLAN bridge
@@ -31,7 +31,7 @@ iface br-vlan inet manual
         bridge_waitport 0
         bridge_fd 0
         # Bridge port references untagged interface
-        bridge_ports em2
+        bridge_ports eth1
 
 # OpenStack Networking VXLAN (tunnel/overlay) bridge
 auto br-vxlan
@@ -40,4 +40,4 @@ iface br-vxlan inet manual
         bridge_waitport 0
         bridge_fd 0
         # Bridge port references tagged interface
-        bridge_ports em3
+        bridge_ports p3p1

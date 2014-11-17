@@ -1,5 +1,5 @@
-start=74
-end=94
+start=10
+end=25
 
 //Remove ip from known hosts
 for (( i=$start; i<=$end; i++ )); do
@@ -26,9 +26,9 @@ done
 
 //CPU DEADLOCK SCRIPT
 for (( i=$start; i<=$end; i++ )); 
-    do echo $i; scp dan/ubuntu/cpu_dead_lock_fix.sh openstack@192.168.1.$i:;
+    do echo $i; scp dan/Lab-RPC9.0/cpu_deadlock_fix.sh openstack@192.168.1.$i:;
 done
 for (( i=$start; i<=$end; i++ )); do
     echo $i; 
-    ssh openstack@192.168.1.$i "sudo bash cpu_dead_lock_fix.sh"; 
+    ssh openstack@192.168.1.$i "sudo bash cpu_deadlock_fix.sh"; 
 done

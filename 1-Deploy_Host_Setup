@@ -1,0 +1,37 @@
+deploy_host=10
+
+
+ssh openstack@192.168.1.$deploy_host "sudo apt-get update -y";
+
+ssh openstack@192.168.1.$deploy_host "sudo apt-get install -y \
+                            aptitude build-essential git ntp ntpdate \
+                            openssh-server python-dev sudo";
+
+ssh openstack@192.168.1.$deploy_host "cd /opt;
+                            sudo git clone -b 9.0.1 https://github.com/rcbops/ansible-lxc-rpc.git;";
+
+ssh openstack@192.168.1.$deploy_host "curl -O https://bootstrap.pypa.io/get-pip.py;
+                            sudo python get-pip.py; sudo pip install -r /opt/ansible-lxc-rpc/requirements.txt";
+
+ssh openstack@192.168.1.$deploy_host "sudo cp -R /opt/ansible-lxc-rpc/etc/rpc_deploy /etc";
+
+ssh openstack@192.168.1.$deploy_host "cd /opt/ansible-lxc-rpc/; sudo ./scripts/pw-token-gen.py --file /etc/rpc_deploy/user_variables.yml"
+
+ssh openstack@192.168.1.$deploy_host 'sudo ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa; sudo cp /root/.ssh/id_rsa.pub ~; sudo chown openstack: ~/id_rsa.pub'
+
+scp openstack@192.168.1.$deploy_host:~/id_rsa.pub .
+
+start=11
+end=19
+
+//Remove ip from known hosts
+for (( i=$start; i<=$end; i++ )); do
+    echo $i; 
+    ssh-copy-id -i ./id_rsa.pub openstack@192.168.1.$i;
+done
+
+for (( i=$start; i<=$end; i++ )); do
+    echo $i; 
+    ssh openstack@192.168.1.$i "sudo mkdir /root/.ssh; 
+                                     sudo cp /home/openstack/.ssh/authorized_keys /root/.ssh";
+done

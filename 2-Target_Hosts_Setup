@@ -1,0 +1,15 @@
+deploy_host=10
+start=11
+end=19
+
+
+for (( i=$start; i<=$end; i++ )); do
+    echo $i; 
+    ssh openstack@192.168.1.$i "sudo apt-get install -y bridge-utils lsof lvm2 ntp ntpdate openssh-server sudo tcpdump debootstrap"; 
+done
+
+for (( i=$start; i<=$end; i++ )); do
+    echo $i; 
+    ssh openstack@192.168.1.$i "";
+done
+
