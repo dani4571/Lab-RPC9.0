@@ -35,9 +35,13 @@ iface br-vlan inet manual
 
 # OpenStack Networking VXLAN (tunnel/overlay) bridge
 auto br-vxlan
-iface br-vxlan inet manual
+iface br-vxlan inet static
         bridge_stp off
         bridge_waitport 0
         bridge_fd 0
         # Bridge port references tagged interface
         bridge_ports p3p1
+        address 172.16.0.ADDRESS
+        netmask 255.255.255.0
+        gateway 172.16.0.1
+        dns-nameservers 8.8.8.8 4.2.2.2
