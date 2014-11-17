@@ -68,7 +68,7 @@ global_overrides:
         group_binds:
           - neutron_linuxbridge_agent
         container_bridge: "br-vxlan"
-        container_interface: "eth1"
+        container_interface: "eth10"
         ip_from_q: "tunnel"
         type: "vxlan"
         range: "1:1000"

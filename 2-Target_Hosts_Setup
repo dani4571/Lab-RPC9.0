@@ -10,6 +10,12 @@ done
 
 for (( i=$start; i<=$end; i++ )); do
     echo $i; 
-    ssh openstack@192.168.1.$i "";
+    scp ~/dan/Lab-RPC9.0/interfaces openstack@192.168.1.$i:;
 done
 
+for (( i=$start; i<=$end; i++ )); do
+    echo $i; 
+    ssh openstack@192.168.1.$i "sed -i 's/ADDRESS/$i/g' interfaces; sudo cp interfaces /etc/network/interfaces.d/global.cfg"; 
+    ssh openstack@192.168.1.$i "echo 'source /etc/network/interfaces.d/*.cfg' | sudo tee -a /etc/network/interfaces";
+    ssh openstack@192.168.1.$i "sudo ifup br-mgmt; sudo ifup br-vlan; sudo ifup br-vxlan";
+done
