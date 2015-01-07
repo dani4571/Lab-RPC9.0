@@ -26,7 +26,7 @@ done
 
 //CPU DEADLOCK SCRIPT
 for (( i=$start; i<=$end; i++ )); 
-    do echo $i; scp dan/Lab-RPC9.0/cpu_deadlock_fix.sh openstack@192.168.1.$i:;
+    do echo $i; scp cpu_deadlock_fix.sh openstack@192.168.1.$i:;
 done
 for (( i=$start; i<=$end; i++ )); do
     echo $i; 

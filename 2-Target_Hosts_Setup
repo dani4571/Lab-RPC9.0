@@ -1,12 +1,21 @@
 deploy_host=10
 start=11
-end=19
+end=21
+
+cinder_host=18
 
 
 for (( i=$start; i<=$end; i++ )); do
     echo $i; 
     ssh openstack@192.168.1.$i "sudo apt-get install -y bridge-utils lsof lvm2 ntp ntpdate openssh-server sudo tcpdump debootstrap"; 
 done
+
+for (( i=$start; i<=$end; i++ )); do
+    echo $i; 
+    ssh openstack@192.168.1.$i 'sudo ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa;'
+    ssh openstack@192.168.1.$i 'ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa;'
+done
+
 
 for (( i=$start; i<=$end; i++ )); do
     echo $i; 
@@ -19,3 +28,8 @@ for (( i=$start; i<=$end; i++ )); do
     ssh openstack@192.168.1.$i "echo 'source /etc/network/interfaces.d/*.cfg' | sudo tee -a /etc/network/interfaces";
     ssh openstack@192.168.1.$i "sudo ifup br-mgmt; sudo ifup br-vlan; sudo ifup br-vxlan";
 done
+
+
+ssh openstack@192.168.1.$cinder_host "sudo pvcreate --metadatasize 2048 /dev/sdb";
+ssh openstack@192.168.1.$cinder_host "sudo vgcreate cinder-volumes /dev/sdb";
+

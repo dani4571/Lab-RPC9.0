@@ -8,7 +8,7 @@ ssh openstack@192.168.1.$deploy_host "sudo apt-get install -y \
                             openssh-server python-dev sudo";
 
 ssh openstack@192.168.1.$deploy_host "cd /opt;
-                            sudo git clone -b 9.0.1 https://github.com/rcbops/ansible-lxc-rpc.git;";
+                            sudo git clone https://github.com/rcbops/ansible-lxc-rpc.git;";
 
 ssh openstack@192.168.1.$deploy_host "curl -O https://bootstrap.pypa.io/get-pip.py;
                             sudo python get-pip.py; sudo pip install -r /opt/ansible-lxc-rpc/requirements.txt";
@@ -19,10 +19,14 @@ ssh openstack@192.168.1.$deploy_host "cd /opt/ansible-lxc-rpc/; sudo ./scripts/p
 
 ssh openstack@192.168.1.$deploy_host 'sudo ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa; sudo cp /root/.ssh/id_rsa.pub ~; sudo chown openstack: ~/id_rsa.pub'
 
+scp ~/dan/Lab-RPC9.0/rpc_user_config.yml openstack@192.168.1.$deploy_host:
+
+ssh openstack@192.168.1.$deploy_host "sudo cp rpc_user_config.yml /etc/rpc_deploy/";
+
 scp openstack@192.168.1.$deploy_host:~/id_rsa.pub .
 
 start=11
-end=19
+end=21
 
 //Remove ip from known hosts
 for (( i=$start; i<=$end; i++ )); do

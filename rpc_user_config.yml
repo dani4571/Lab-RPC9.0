@@ -15,7 +15,7 @@
 
 # This is the md5 of the environment file
 # this will ensure consistency when deploying.
-environment_version: dc4cd5fe9c07eee223e8bbb1c5bbaad5
+environment_version: 3511a43b8e4cc39af4beaaa852b5f917
 
 # User defined CIDR used for containers
 # Global cidr/s used for everything.
@@ -38,9 +38,9 @@ used_ips:
 # specified here will take precedence over anything else any where.
 global_overrides:
   # Internal Management vip address
-  internal_lb_vip_address: 192.168.1.200
+  internal_lb_vip_address: 192.168.1.21
   # External DMZ VIP address
-  external_lb_vip_address: 192.168.1.200
+  external_lb_vip_address: 192.168.1.21
   # Bridged interface to use with tunnel type networks
   tunnel_bridge: "br-mgmt"
   # Bridged interface to build containers with
@@ -144,3 +144,4 @@ network_hosts:
 haproxy_hosts:
   haproxy1:
     ip: 192.168.1.21
+
