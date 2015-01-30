@@ -8,7 +8,7 @@ ssh openstack@192.168.1.$deploy_host "sudo apt-get install -y \
                             openssh-server python-dev sudo";
 
 ssh openstack@192.168.1.$deploy_host "cd /opt;
-                            sudo git clone https://github.com/rcbops/ansible-lxc-rpc.git;";
+                            sudo git clone -b 9.0.5 https://github.com/stackforge/os-ansible-deployment.git;";
 
 # Patch Galera Install - https://bugs.launchpad.net/openstack-ansible/+bug/1408138
 ssh openstack@192.168.1.$deploy_host "sed -i 's|  - xtrabackup|  - xtrabackup\n  - socat|g' /opt/ansible-lxc-rpc/rpc_deployment/vars/repo_packages/galera.yml"
